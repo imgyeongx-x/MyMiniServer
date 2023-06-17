@@ -1,0 +1,7 @@
+﻿MyMiniServer.obj : error LNK2019: "public: __cdecl SystemMessageMap::SystemMessageMap(void (__cdecl*)(int,struct tagPOINT),void (__cdecl*)(int,struct tagPOINT),void (__cdecl*)(int,struct tagPOINT),void (__cdecl*)(int,int,void *),void (__cdecl*)(void),int (__cdecl*)(struct HWND__ *,unsigned int,unsigned __int64,__int64))" (??0SystemMessageMap@@QEAA@P6AXHUtagPOINT@@@Z11P6AXHHPEAX@ZP6AXXZP6AHPEAUHWND__@@I_K_J@Z@Z)"void __cdecl `dynamic initializer for 'g_system_map''(void)" (??__Eg_system_map@@YAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+MyMiniServer.obj : error LNK2019: "public: virtual __cdecl SystemMessageMap::~SystemMessageMap(void)" (??1SystemMessageMap@@UEAA@XZ)"void __cdecl `dynamic atexit destructor for 'g_system_map''(void)" (??__Fg_system_map@@YAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+MyMiniServer.obj : error LNK2019: "void __cdecl EasyAPI_Tipsware::TextOutW(int,int,char const *,...)" (?TextOutW@EasyAPI_Tipsware@@YAXHHPEBDZZ)main 함수에서 참조되는 확인할 수 없는 외부 기호
+MyMiniServer.obj : error LNK2019: "void __cdecl EasyAPI_Tipsware::ShowDisplay(int)" (?ShowDisplay@EasyAPI_Tipsware@@YAXH@Z)main 함수에서 참조되는 확인할 수 없는 외부 기호
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: WinMain"int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+DSH_EasyWin32.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniServer\x64\Debug\MyMiniServer.exe : fatal error LNK1120: 5개의 확인할 수 없는 외부 참조입니다.
