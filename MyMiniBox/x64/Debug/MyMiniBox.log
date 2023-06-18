@@ -1,0 +1,11 @@
+﻿  pch.cpp
+  MyMiniBox.cpp
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(40,18): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(40,11): error C2146: 구문 오류: ';'이(가) '예제' 식별자 앞에 없습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(40,81): error C2015: 상수에 문자가 너무 많습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(48,1): error C2143: 구문 오류: ';'이(가) '{' 앞에 없습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(48,1): error C2447: '{': 함수 헤더가 없습니다. 이전 스타일의 형식 목록입니까?
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(62,1): error C2374: 'g_system_map': 재정의. 여러 번 초기화했습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(21,1): message : 'g_system_map' 선언을 참조하십시오.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(64,5): error C2084: 'int main(void)' 함수에 이미 본문이 있습니다.
+C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniBox\MyMiniBox.cpp(23,5): message : 'main'의 이전 정의를 참조하십시오.
