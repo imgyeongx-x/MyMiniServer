@@ -4,7 +4,7 @@
 
 struct AppData   // 프로그램에서 사용할 내부 데이터
 {
-    void* p_socket; 
+    void* p_socket;
 };
 
 // 서버에 접속했거나 접속에 실패했을 때 호출되는 함수
@@ -30,8 +30,8 @@ int OnServerMessage(CurrentClientNetworkData* ap_data, void* ap_this, int a_clie
 void OnCloseUser(void* ap_this, int a_error_flag, int a_client_index)
 {
     char temp_str[64];
-    if (a_error_flag == 1) sprintf_s(temp_str, 64, "서버에서 접속을 해제했습니다."); 
-    else sprintf_s(temp_str, 64, "서버와 접속을 해제했습니다."); 
+    if (a_error_flag == 1) sprintf_s(temp_str, 64, "서버에서 접속을 해제했습니다.");
+    else sprintf_s(temp_str, 64, "서버와 접속을 해제했습니다.");
     ListBox_InsertString(FindControl(1000), -1, temp_str);
 }
 
@@ -51,7 +51,7 @@ void OnConnectBtn(AppData* ap_data)
 void OnDisconnectBtn(AppData* ap_data)
 {
     if (ap_data->p_socket != NULL) {
-        DeleteClientSocket(ap_data->p_socket); 
+        DeleteClientSocket(ap_data->p_socket);
         ap_data->p_socket = NULL;
     }
 }
@@ -92,7 +92,7 @@ int main()
     CreateListBox(10, 36, 500, 100, 1000);
 
     CreateButton("접속", 407, 3, 50, 28, 1011);
-    CreateButton("해제", 460, 3, 50, 28, 1012);  
+    CreateButton("해제", 460, 3, 50, 28, 1012);
     CreateButton("입력", 460, 140, 50, 28, 1013);
 
     void* p = CreateEdit(10, 143, 446, 24, 1020, 0);
