@@ -1,2 +1,3 @@
 ﻿  MyMiniServer.cpp
+DSH_EasyWin32.lib(EasyAPI.obj) : warning LNK4099: '' PDB를 'DSH_EasyWin32.lib(EasyAPI.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
   MyMiniServer.vcxproj -> C:\Users\imgye\OneDrive - Sejong University\바탕 화면\과제\SW오픈소스\MyMiniServer\MyMiniServer\Debug\MyMiniServer.exe
