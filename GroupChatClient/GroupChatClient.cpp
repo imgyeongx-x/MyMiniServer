@@ -13,24 +13,25 @@
 
 #define REQ_USER_CHAT                 21    // C -> S 채팅 데이터 전달
 #define ANS_USER_CHAT                 22    // S -> C 채팅 데이터 전달 (브로드 캐스팅)
-void InitWindow()
+
+void InitWindow()   // 윈도우 전역 속성 초기화 함수
 {
     gp_window_title = "로그인 채팅 ";
     g_wnd_style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPCHILDREN;
 }
 
-typedef struct ApplicationData  
+typedef struct ApplicationData  // 프로그램 내부 데이터
 {
     NeoSocketData client;
     void *p_event_list;  
 } AD;
 
-void AddEventString(AD *ap_app, const char *ap_string)
+void AddEventString(AD *ap_app, const char *ap_string)  // 이벤트 목록 추가 함수
 {
     ListBox_InsertString(ap_app->p_event_list, -1, ap_string);
 }
 
-int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam)
+int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam) // 일반 메세지 처리 함수
 {
     AD *p_app = (AD *)GetAppData();
 
@@ -40,13 +41,13 @@ int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-void ClientSocketNotifyProc(NeoSocketData *ap_data, UINT32 a_state)
+void ClientSocketNotifyProc(NeoSocketData *ap_data, UINT32 a_state) // 사용자 상태 통보 함수
 {
     //i f (a_state == 1);   // 서버에 접속을 성공 
     // if (a_state == 50); // 서버와 연결 해제
 }
 
-int ProcessingSocketMessage(NeoSocketData *ap_data)
+int ProcessingSocketMessage(NeoSocketData *ap_data) // 네트워크 메세지 처리 함수
 {
     AD *p_app = (AD *)GetAppData(); 
     if (ap_data->msg_id == ANS_WELCOME_MSG) {
@@ -69,13 +70,13 @@ int ProcessingSocketMessage(NeoSocketData *ap_data)
     return 1;
 }
 
-void OnDestroy() 
+void OnDestroy()    // 윈도우 종료 호출 함수
 {
     AD *p_app = (AD *)GetAppData(); 
     CleanUpClientData(&p_app->client); 
 }
 
-void SendChatData(AD *ap_app)
+void SendChatData(AD *ap_app)   // 사용자 채팅 메세지를 서버로 전송
 {
     if (ap_app->client.is_connected == 3) {
         char str[512];
@@ -87,7 +88,7 @@ void SendChatData(AD *ap_app)
     }
 }
 
-void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl)
+void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl) // 컨트롤 id, 상태, 선택한 객체
 {
     AD *p_app = (AD *)GetAppData();
 
@@ -112,7 +113,7 @@ void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl)
 
 CMD_USER_MESSAGE(OnCommand, OnDestroy, OnUserMsg)
 
-void ClientAddEventString(NeoSocketData *ap_server, const char *ap_string)
+void ClientAddEventString(NeoSocketData *ap_server, const char *ap_string)  // 이벤트 메세지 추가 함수
 {
     AD *p_app = (AD *)GetAppData(); 
     AddEventString(p_app, ap_string);
@@ -123,8 +124,8 @@ int main()
     ChangeWorkSize(660, 237); 
     Clear(0, RGB(82, 97, 124));
 
-    AD app_data = { 0, };
-    ClientAddEventString, ClientSocketNotifyProc);
+    AD app_data = { 0, }; 
+    InitData(&app_data.client, ProcessingSocketMessage, ClientAddEventString, ClientSocketNotifyProc);
     app_data.p_event_list = CreateListBox(5, 50, 650, 160, IDC_EVENT_LIST, NULL, 0);
     SetAppData(&app_data, sizeof(AD)); 
 

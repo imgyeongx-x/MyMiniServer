@@ -21,25 +21,25 @@ int g_level_len[] = { 4, 8, 8, 8, 8, 6, 6, 3, 6 };
 
 #define REQ_USER_CHAT                 21    // C -> S 채팅 데이터 전달
 #define ANS_USER_CHAT                 22    // S -> C 채팅 데이터 전달 (브로드 캐스팅)
-
+void InitWindow()   // 윈도우 전역 속성 초기화 함수
 {
     gp_window_title = "로그인";
     g_wnd_style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPCHILDREN;
 }
 
-typedef struct ApplicationData  
+typedef struct ApplicationData      // 프로그램 내부 데이터
 {
     NeoServerData server_data;
     void *p_user_list; 
     void *p_event_list;
 } AD;
 
-void AddEventString(AD *ap_app, const char *ap_string)
+void AddEventString(AD *ap_app, const char *ap_string)      // 이벤트 목록 추가함수
 {
     ListBox_InsertString(ap_app->p_event_list, -1, ap_string); 
 }
 
-int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam)
+int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam) // 일반 메세지 처리 함수
 {
     AD *p_app = (AD *)GetAppData();
 
@@ -59,7 +59,7 @@ int OnUserMsg(HWND ah_wnd, UINT a_msg_id, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-int UserMessageProc(NeoServerData *ap_server, NRUD *ap_user)
+int UserMessageProc(NeoServerData *ap_server, NRUD *ap_user)    // 클라이언트 데이터 처리 함수
 {
     AD *p_app = (AD *)GetAppData();
 
@@ -71,7 +71,7 @@ int UserMessageProc(NeoServerData *ap_server, NRUD *ap_user)
     return 1;
 }
 
-void LoadUserData(AD *ap_app)
+void LoadUserData(AD *ap_app)   // 사용자 정보 구성 함수
 {
     FILE *p_file = NULL;
     NRUD *p_user = ap_app->server_data.p_users; 
@@ -94,7 +94,7 @@ void LoadUserData(AD *ap_app)
     }
 }
 
-void SaveUserData(AD *ap_app)
+void SaveUserData(AD *ap_app)   // 사용자 정보를 user.dat 파일에 저장 (회원가입)
 {
     FILE *p_file = NULL;
     NRUD *p_users = ap_app->server_data.p_users; 
@@ -122,7 +122,7 @@ void SaveUserData(AD *ap_app)
     }
 }
 
-void StartServerService(AD *ap_app)
+void StartServerService(AD *ap_app) // 서버 시작 함수
 {
     if (ap_app->server_data.h_listen_socket == INVALID_SOCKET) { 
         void *p_ctrl = FindControl(IDC_IP_COMBO); 
@@ -132,21 +132,21 @@ void StartServerService(AD *ap_app)
             int len = ComboBox_GetTextLength(p_ctrl, index); 
             ComboBox_GetText(p_ctrl, index, str, 32); 
             StartListenService(str, 12023, &ap_app->server_data); 
-            memcpy(str + len, " 에서 리슨 서비스를 시작합니다!", 32);
+            memcpy(str + len, " 에서 리슨 서비스를 시작합니다.", 32);
             AddEventString(ap_app, str);
         }
     } else AddEventString(ap_app, "리슨 서비스가 이미 진행중입니다...");
 }
 
-void StopServerService(AD *ap_app)
+void StopServerService(AD *ap_app)  // 서비스 중지 함수
 {
     if (ap_app->server_data.h_listen_socket != INVALID_SOCKET) { 
         DestroyServerSocket(&ap_app->server_data); //
-        AddEventString(ap_app, "리슨 서비스를 중지합니다!");
+        AddEventString(ap_app, "리슨 서비스를 중지합니다.");
     }
 }
 
-void OnDestroy() {
+void OnDestroy() {  // 윈도우 종료 함수
     AD *p_app = (AD *)GetAppData(); 
 
     SaveUserData(p_app);
@@ -154,7 +154,7 @@ void OnDestroy() {
     CleanUpServerData(&p_app->server_data);
 }
 
-void FindLastUser(AD *ap_app)
+void FindLastUser(AD *ap_app)   // 마지막 사용자 함수
 {
     if (ap_app->server_data.p_last_user != NULL) {
         NRUD *p_users = ap_app->server_data.p_users;
@@ -168,17 +168,17 @@ void FindLastUser(AD *ap_app)
             }
             p_user--;  
         }
-    }
+    }  
 }
 
-int GetStringFromEdit(int a_ctrl_id, char *ap_str, int a_limit)
+int GetStringFromEdit(int a_ctrl_id, char *ap_str, int a_limit) // edit컨트롤에서 문자열 얻는 함수
 {
     void *p_edit = FindControl(a_ctrl_id); 
     GetCtrlName(p_edit, ap_str, a_limit);
     return Edit_GetLength(p_edit); 
 }
 
-void ModifyUserData(AD *ap_app)
+void ModifyUserData(AD *ap_app) // 사용자 입력 데이터로 계정 업데이트
 {
     char id[32];
     UINT32 len = GetStringFromEdit(IDC_USER_ID_EDIT, id, 32);
@@ -208,7 +208,7 @@ void ModifyUserData(AD *ap_app)
     } else AddEventString(ap_app, "아이디 오류: 아이디는 반드시 입력해야 합니다.");
 }
 
-void DelUserData(AD *ap_app)
+void DelUserData(AD *ap_app)    // 사용자 정보 삭제 함수
 {
     int index = ListBox_GetCurSel(ap_app->p_user_list);
     NRUD *p_user = (NRUD *)ListBox_GetItemDataPtr(ap_app->p_user_list, index);
@@ -225,12 +225,12 @@ void DelUserData(AD *ap_app)
             ListBox_SetCurSel(ap_app->p_user_list, index); 
             if (ap_app->server_data.p_last_user == p_user) {
                 FindLastUser(ap_app);
-            }
+            }   
         }
     }
 }
 
-void ShowUserData(AD *ap_app)
+void ShowUserData(AD *ap_app)   // 사용자 정보 컨트롤에 표시
 {
     int index = ListBox_GetCurSel(ap_app->p_user_list);
     NRUD *p_user = (NRUD *)ListBox_GetItemDataPtr(ap_app->p_user_list, index);
@@ -241,7 +241,7 @@ void ShowUserData(AD *ap_app)
     SetCtrlName(FindControl(IDC_USER_ETC_EDIT), p_user->info.etc);
 }
 
-void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl)
+void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl) // 컨트롤 id, 상태, 선택된 개체
 {
     AD *p_app = (AD *)GetAppData(); 
 
@@ -255,32 +255,32 @@ void OnCommand(INT32 a_ctrl_id, INT32 a_notify_code, void *ap_ctrl)
 
 CMD_USER_MESSAGE(OnCommand, OnDestroy, OnUserMsg)
 
-void ServerAddEventString(NeoServerData *ap_server, const char *ap_string)  
+void ServerAddEventString(NeoServerData *ap_server, const char *ap_string)  // 이벤트 메세지 추가 함수
 {
     AD *p_app = (AD *)GetAppData(); 
     AddEventString(p_app, ap_string);
 }
 
-void UserNotifyProc(NeoServerData *ap_server, NRUD *ap_user, UINT32 a_state)
+void UserNotifyProc(NeoServerData *ap_server, NRUD *ap_user, UINT32 a_state)    // 사용자 상태 통보 함수
 {
     //if (a_state == 1); // 새로운 사용자가 로그인에 성공함
     //if (a_state == 50);  // 사용자가 접속을 해제함
 }
 
-void CheckServiceIpAddress(void *ap_combo_ctrl)
+void CheckServiceIpAddress(void *ap_combo_ctrl)     // IP 주소를 콤보 박스에 추가
 {
     char ip_list[10][16];
     int count = GetLocalNetworkAddress(ip_list);
     for (int i = 0; i < count; i++) ComboBox_InsertString(ap_combo_ctrl, i, ip_list[i]);
     ComboBox_SetCurSel(ap_combo_ctrl, 0);
 }
-void CheckUserLevel(void *ap_combo_ctrl)
+void CheckUserLevel(void *ap_combo_ctrl)    // 사용자 등급 목록 함수
 {
     for (int i = 0; i < 9; i++) ComboBox_InsertString(ap_combo_ctrl, i, gp_level_string[i]);
     ComboBox_SetCurSel(ap_combo_ctrl, 0);
 }
 
-void DrawUserInfoItem(int index, char *ap_str, int a_str_len, void *ap_data, int a_is_selected, RECT *ap_rect)
+void DrawUserInfoItem(int index, char *ap_str, int a_str_len, void *ap_data, int a_is_selected, RECT *ap_rect)      // 리스트 각 항목 출력
 {
     if (a_is_selected) SelectPenObject(RGB(212, 228, 228)); 
     else SelectPenObject(RGB(62, 77, 104)); 
